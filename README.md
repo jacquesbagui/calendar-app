@@ -48,8 +48,8 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 1. **Cloner le dépôt**
 
     ```sh
-    git clone <URL_DU_DÉPÔT>
-    cd <NOM_DU_RÉPERTOIRE>
+    git clone https://github.com/jacquesbagui/calendar-app.git
+    cd calendar-app
     ```
 
 2. **Installer les dépendances**
