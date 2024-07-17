@@ -1,26 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Calendar } from './components/Calendar';
+import { IEvent } from './types';
+import { eventService } from './services/eventService';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
+  const events = eventService.getEvents();
+  // TODO: Si on passe à une API, utiliser useEffect et useState 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Calendar events={events as IEvent[]} />
     </div>
   );
-}
+};
 
 export default App;

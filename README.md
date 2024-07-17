@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# Algorithme de placement d'événements dans un calendrier
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet implémente une solution pour positionner des événements dans un calendrier sans chevauchements visuels, tout en maximisant l'utilisation de l'espace disponible.
 
-## Available Scripts
+## Problème
 
-In the project directory, you can run:
+Le problème consiste à rendre des événements sur un calendrier en respectant deux contraintes principales :
+1. Les événements qui se chevauchent doivent avoir la même largeur.
+2. Chaque événement doit utiliser la largeur maximale disponible tout en satisfaisant la première contrainte.
 
-### `npm start`
+## Solution
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+La solution utilise un algorithme de balayage (sweep line algorithm) pour traiter efficacement les événements et déterminer leur placement optimal. Voici les étapes principales de l'algorithme :
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **Création des points** : Pour chaque événement, on crée deux points : un pour le début et un pour la fin.
 
-### `npm test`
+2. **Tri des points** : Tous les points sont triés par ordre chronologique. En cas d'égalité, les points de début sont placés avant les points de fin.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Balayage** : On parcourt les points triés de haut en bas (chronologiquement), en maintenant une liste d'événements actifs.
 
-### `npm run build`
+4. **Attribution des colonnes** : Pour chaque point de début, on attribue la première colonne disponible à l'événement.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. **Calcul de la largeur** : La largeur de chaque événement est déterminée par le nombre maximum d'événements se chevauchant pendant sa durée.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+6. **Mise à jour des largeurs** : À chaque point (début ou fin), on met à jour la largeur maximale pour tous les événements actifs qui se chevauchent.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Implémentation
 
-### `npm run eject`
+L'implémentation principale se trouve dans le hook `useEventProcessing`. Ce hook prend en entrée un tableau d'événements et renvoie un tableau d'événements traités avec leurs propriétés de positionnement et de dimensionnement calculées.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Les fonctions clés sont :
+- `createSortedPoints` : Crée et trie les points de début et de fin.
+- `processPoints` : Traite les points pour déterminer la disposition des événements.
+- `findAvailableColumn` : Trouve une colonne disponible pour un nouvel événement.
+- `overlapsWith` : Vérifie si deux événements se chevauchent.
+- `createProcessedEvents` : Crée les événements traités avec leur position et largeur calculées.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Démarrage du Projet ReactJS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Prérequis
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
+- Node.js (version 12 ou supérieure)
+- npm (version 6 ou supérieure)
 
-## Learn More
+## Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Cloner le dépôt**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```sh
+    git clone <URL_DU_DÉPÔT>
+    cd <NOM_DU_RÉPERTOIRE>
+    ```
+
+2. **Installer les dépendances**
+
+    ```sh
+    npm install
+    ```
+
+## Lancer le Projet
+
+1. **Démarrer le serveur de développement**
+
+    ```sh
+    npm start
+    ```
+
+    Cela lancera l'application sur `http://localhost:3000`.
